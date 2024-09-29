@@ -33,4 +33,24 @@ const OfficerDetailsServices = async (req) => {
     }
 };
 
-export {OfficerServices,OfficerDetailsServices};
+const DetailsServices = async (req) => {
+    try {
+        const {officerId,age,father,mother,address} = req.body.details;
+        const detailsInformation = await prisma.details.create({
+            data: {
+                officerId:parseInt(officerId),
+                age:parseInt(age),
+                father:father,
+                mother:mother,
+                address:address
+            }
+        })
+        return {status: "success", data: detailsInformation};
+
+    }catch(e){
+        console.error("Error in DetailsService:", e);
+        return { status: "fail", data: e.message };
+    }
+};
+
+export {OfficerServices,OfficerDetailsServices,DetailsServices};

@@ -2,20 +2,32 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import { BASE_URL } from "../../../config.js";
 import toast from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 
 const Officer = () => {
+    const navigate = useNavigate();
     const [officerDetails, setOfficerDetails] = useState({ name: '', cif: '' });
     let [officerInfo, setOfficerInfo] = useState([]);
 
     useEffect(()=>{
         (async ()=>{
+            await getData()
+        })()
+    },[])
+
+    const getData = async () =>{
+        try{
             let res = await axios.get(`${BASE_URL}/api/v1/officerDetails`,{withCredentials:true})
             console.log(res.data.data)
             if(res.data['status'] === 'success'){
                 setOfficerInfo(res.data.data)
             }
-        })()
-    },[])
+        }catch(e){
+            toast.error("Something went wrong");
+            toast.error(e.message)
+        }
+    }
+
     const handleClick = async (e) => {
         e.preventDefault();
         try {
@@ -29,6 +41,7 @@ const Officer = () => {
 
             if (res.data['status'] === "success") {
                 toast.success("Submitted successfully ");
+                await getData();
             }else{
                 toast.error("Submission failed ");
             }
@@ -37,6 +50,10 @@ const Officer = () => {
             console.error(e);
         }
     };
+
+    const handleInfo = async (id) => {
+        navigate(`/details/${id}`)
+    }
 
     return (
         <div className="container">
@@ -74,9 +91,16 @@ const Officer = () => {
                 officerInfo?.length > 0 && (
                     officerInfo.map((item, idx) => {
                         return (
-                            <div key={idx} className="row">
-                                {item.name}
-                                {item.cif}
+                            <div key={idx} className="row mt-4">
+                                <div className="col-md-2">
+                                    {item?.name}
+                                </div>
+                                <div className="col-md-2">
+                                    {item?.cif}
+                                </div>
+                                <div className="col-md-2">
+                                    <button onClick={()=> handleInfo(item?.id)} className="btn btn-success">Submit</button>
+                                </div>
                             </div>
                         )
                     })

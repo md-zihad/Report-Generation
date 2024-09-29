@@ -3,6 +3,7 @@ import SignupPage from "../src/pages/SignUp.jsx";
 import ValidationHelper from "../utility/ValidationUtility.jsx";
 import Login from "../src/pages/Login.jsx";
 import Officer from "../src/pages/Officer.jsx";
+import Details from "../src/pages/Details.jsx";
 
 const Webroute = () => {
     if(!ValidationHelper.isLogin()){
@@ -20,6 +21,7 @@ const Webroute = () => {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Officer/>}/>
+                    <Route path="/details/:id" element={<Details/>}/>
                 </Routes>
             </BrowserRouter>
         )

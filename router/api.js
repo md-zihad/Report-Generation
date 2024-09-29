@@ -10,5 +10,6 @@ router.post('/VerifyLogin',AuthController.VerifyLogin);
 
 router.post('/officer',Authvarification,OfficerDetailsController.officer)
 router.get('/officerDetails',Authvarification,OfficerDetailsController.officerDetails)
+router.post('/details',Authvarification,OfficerDetailsController.details)
 
 export default router;
