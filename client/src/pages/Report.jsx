@@ -9,12 +9,12 @@ const Report = () => {
                 responseType: 'blob',
                 withCredentials: true,
             });
-            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const url = window.URL.createObjectURL(new Blob([response.data],{type:'text/pdf'}));
 
             console.log(url)
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'officer_report.pdf'); // Specify the file name
+            link.setAttribute('download', 'officer_report.pdf');
 
             // Append to the body and trigger the download
             document.body.appendChild(link);
