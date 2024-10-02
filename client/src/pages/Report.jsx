@@ -9,17 +9,15 @@ const Report = () => {
                 responseType: 'blob',
                 withCredentials: true,
             });
-            const url = window.URL.createObjectURL(new Blob([response.data],{type:'text/pdf'}));
+            const url = window.URL.createObjectURL(new Blob([response.data],{type:'application/pdf'}));
 
-            console.log(url)
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'officer_report.pdf');
-
-            // Append to the body and trigger the download
-            document.body.appendChild(link);
-            link.click();
-            link.parentNode.removeChild(link);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'report.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         } catch (error) {
             console.error('Error downloading the report:', error);
             alert('Error downloading the report. Please try again later.');

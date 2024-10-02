@@ -46,10 +46,10 @@ const GetReportServices = async (req) => {
 
 
         await page.setContent(reportContent);
-        const pdfBuffer = await page.pdf({ format: 'A4' });
+        const pdfBuffer = await page.pdf({ format: 'A4' ,printBackground: true});
         await browser.close();
-
-        console.log("pdfBuffer : ",pdfBuffer)
+        console.log("PDF Buffer Size:", pdfBuffer.length);
+        console.log("Report Content:", reportContent);
         return {status: "success", data: pdfBuffer};
     }catch(e){
         console.error("Error in DetailsService:", e);

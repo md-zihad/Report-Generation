@@ -5,9 +5,9 @@ export const getReport = async (req,res) =>{
     if(result['status']==="success"){
         res.set({
             'Content-Type': 'application/pdf',
-            'Content-Disposition': 'attachment; filename=report.pdf',
+            'Content-Disposition': 'attachment; filename="test.pdf"',
         });
-
+        
         return res.status(200).send(result);
     }else {
         return res.status(401).json(result);
