@@ -4,6 +4,8 @@ let prisma = new PrismaClient();
 const GetReportServices = async (req) => {
     try {
         const officerInformation = await prisma.details.findMany();
+        console.log("Officer Information:", officerInformation);
+
 
         if (officerInformation.length > 1000) {
             return {status: "success", data: "data is too big !"};
@@ -13,9 +15,8 @@ const GetReportServices = async (req) => {
 
         let rows = officerInformation.map(officer => `
             <tr>
-                <td>${officer.name}</td>
-                <td>${officer.rank}</td>
-                <td>${officer.department}</td>
+                <td>${officer.father}</td>
+               
             </tr>
         `).join('');
 
@@ -34,9 +35,8 @@ const GetReportServices = async (req) => {
                 <h1>Officer Information Report</h1>
                 <table>
                     <tr>
-                        <th>Name</th>
-                        <th>Rank</th>
-                        <th>Department</th>
+                        <th>father</th>
+                        
                     </tr>
                     ${rows}
                 </table>
@@ -44,10 +44,12 @@ const GetReportServices = async (req) => {
             </html>
         `;
 
-
+        
+    
         await page.setContent(reportContent);
         const pdfBuffer = await page.pdf({ format: 'A4' ,printBackground: true});
         await browser.close();
+        
         console.log("PDF Buffer Size:", pdfBuffer.length);
         console.log("Report Content:", reportContent);
         return {status: "success", data: pdfBuffer};
@@ -55,6 +57,12 @@ const GetReportServices = async (req) => {
         console.error("Error in DetailsService:", e);
         return { status: "fail", data: e.message };
     }
+
+    console.log("Generated HTML Content:", reportContent);
+
 };
+
+
+
 
 export {GetReportServices}
